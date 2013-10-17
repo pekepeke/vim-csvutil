@@ -34,8 +34,8 @@ function! s:reader.parse_from_list(all_line) " {{{2
   let line_buf = []
   let is_in_delim = 0
   for a_line in a:all_line
-    for item in split(a_line, self._sep)
-      if is_in_delim 
+    for item in split(a_line, self._sep, 1)
+      if is_in_delim
         let len = strlen(item)
         if strpart(item, len-1, 1) == self._delim
           call add(buf, strpart(item, 0, len - 1))
@@ -78,7 +78,7 @@ function! s:reader.parse_from_list(all_line) " {{{2
 
   let len = len(lines)
   for idx in range(len - 1, 0, -1)
-    if empty(lines[idx])
+    if empty(lines[idx]) || empty(filter(copy(lines[idx]), '!empty(v:val)'))
       call remove(lines, idx)
       continue
     endif

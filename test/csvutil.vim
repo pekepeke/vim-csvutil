@@ -40,7 +40,16 @@ describe 'test reader'
   " for i in range(0, len(list) -1, 1)
   "   Expect list[i] == expected[i]
   " endfor
+  let s = ",,b\n,c,"
+  let expected = [
+        \ ['', '', 'b'],
+        \ ['', 'c', ''],
+        \ ]
+  let csv = csvutil#csv_reader()
+  let list = csv.parse_from_string(s)
+  Expect list == expected
 end
+
 
 describe 'test writer'
   let csv = csvutil#csv_writer()
